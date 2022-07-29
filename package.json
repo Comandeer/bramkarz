@@ -75,7 +75,8 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.20.0",
     "husky": "^8.0.1",
-    "mock-fs": "^5.1.2"
+    "mock-fs": "^5.1.2",
+    "terser": "^5.14.2"
   },
   "dependencies": {
     "esm-loader-manager": "^0.2.0",
