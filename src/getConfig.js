@@ -18,6 +18,8 @@ async function getConfig( path ) {
 	const configFileContent = await readFile( configFilePath );
 	const config = JSON.parse( configFileContent );
 
+	config.__filePath__ = configFilePath;
+
 	return config;
 }
 
