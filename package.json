@@ -4,7 +4,12 @@
   "description": "Simple ESM runtime guard",
   "type": "module",
   "exports": {
-    "import": "./dist/bramkarz.mjs"
+    ".": {
+      "import": "./dist/bramkarz.mjs"
+    },
+    "./overrider": {
+      "import": "./dist/overrider.mjs"
+    }
   },
   "bin": {
     "bramkarz": "./bin/bramkarz.js"
@@ -82,6 +87,7 @@
     "esm-loader-manager": "^0.2.0",
     "execa": "^6.1.0",
     "find-up": "^6.3.0",
+    "minimatch": "^5.1.0",
     "pkg-dir": "^6.0.1",
     "yargs": "^17.5.1"
   }
