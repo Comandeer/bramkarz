@@ -2,16 +2,15 @@ import { dirname } from 'node:path';
 import { resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'ava';
+import fixtures from './__fixtures.js';
 import createCmdTest from './__helpers__/createCmdTest.js';
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
 const bramkarzPath = resolvePath( __dirname, '..', 'bin', 'bramkarz.js' );
-const fixtureDirPath = resolvePath( __dirname, '__fixtures__' );
-const disabledByDefaultFixturePath = resolvePath( fixtureDirPath, 'disabledByDefault' );
 
 test( 'returns correct exit code', createCmdTest( {
 	cmd: bramkarzPath,
-	cwd: disabledByDefaultFixturePath,
+	cwd: fixtures.disabledByDefault,
 	callback( t, { exitCode } ) {
 		t.is( exitCode, 1 );
 	}
@@ -22,7 +21,7 @@ test( 'passes arguments alongside', createCmdTest( {
 	params: [
 		'--version'
 	],
-	cwd: disabledByDefaultFixturePath,
+	cwd: fixtures.disabledByDefault,
 	callback( t, { stdout } ) {
 		const semverRegex = /^\d+\.\d+\.\d+$/;
 
