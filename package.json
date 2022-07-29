@@ -87,7 +87,7 @@
     "esm-loader-manager": "^0.2.0",
     "execa": "^6.1.0",
     "find-up": "^6.3.0",
-    "minimatch": "^5.1.0",
+    "micromatch": "^4.0.5",
     "pkg-dir": "^6.0.1",
     "yargs": "^17.5.1"
   }
