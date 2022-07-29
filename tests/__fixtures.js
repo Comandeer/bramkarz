@@ -8,6 +8,7 @@ const disabledByDefaultFixturePath = resolvePath( fixtureDirPath, 'disabledByDef
 const simpleConfigFixturePath = resolvePath( fixtureDirPath, 'simpleConfig' );
 
 const fixtures = {
+	__dirname,
 	'disabledByDefault': disabledByDefaultFixturePath,
 	'simpleConfig': simpleConfigFixturePath
 };
