@@ -6,9 +6,6 @@
   "exports": {
     ".": {
       "import": "./dist/bramkarz.mjs"
-    },
-    "./overrider": {
-      "import": "./dist/overrider.mjs"
     }
   },
   "bin": {

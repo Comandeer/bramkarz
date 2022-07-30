@@ -2,7 +2,10 @@ import test from 'ava';
 
 test( 'package exports correct exports', async ( t ) => {
 	const expectedImports = [
-		'detectPackageManager'
+		'getConfig',
+		'injectBramkarz',
+		'isEntryPoint',
+		'overrideFS'
 	];
 
 	const pkg = await import( '../src/index.js' );
