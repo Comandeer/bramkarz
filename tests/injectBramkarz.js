@@ -4,7 +4,7 @@ import test from 'ava';
 import fixtures from './__fixtures.js';
 import injectBramkarz from '../src/injectBramkarz.js';
 
-const preamblePath = resolvePath( fixtures.__dirname, '..', 'dist', 'bramkarzPreamble.js' );
+const preamblePath = resolvePath( fixtures.__dirname, '..', 'src', 'bramkarzPreamble.js' );
 const preamble = await readFile( preamblePath, 'utf8' );
 
 test( 'injectBramkarz() adds the preamble to the beginning of the provided code', ( t ) => {

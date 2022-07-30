@@ -13,7 +13,9 @@ const fileName = 'bramkarzPreamble.js';
 const srcPath = resolvePath( cwd, 'src', fileName );
 const destPath = resolvePath( cwd, 'dist', fileName );
 const preamble = await readFile( srcPath, 'utf8' );
-const { code: minifiedPreamble } = await minify( preamble );
+const { code: minifiedPreamble } = await minify( preamble, {
+	module: true
+} );
 
 await writeFile( destPath, minifiedPreamble );
 
