@@ -7,20 +7,19 @@ import { execa } from 'execa';
 import { hideBin } from 'yargs/helpers';
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
-const esmlmConfigPath = resolvePath( __dirname, '..', '.esmlmrc.js' );
+const loaderPath = resolvePath( __dirname, 'loader.js' );
 
 const cwd = process.cwd();
 const argv = hideBin( process.argv );
 
 ( async function() {
-	const { exitCode } = await execa( 'esmlm', [
+	const { exitCode } = await execa( 'node', [
+		'--experimental-loader',
+		loaderPath,
 		...argv
 	], {
 		cwd,
 		stdio: 'inherit',
-		env: {
-			ESMLM_CONFIG: esmlmConfigPath
-		},
 		extendEnv: true,
 		reject: false,
 		preferLocal: true,

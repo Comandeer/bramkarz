@@ -3,9 +3,6 @@ import fixtures from './__fixtures.js';
 import getConfig from '../src/getConfig.js';
 
 const expectedSimpleConfig = {
-	entrypoints: [
-		'./index.js'
-	],
 	allowedPaths: [
 		'../*.txt'
 	]

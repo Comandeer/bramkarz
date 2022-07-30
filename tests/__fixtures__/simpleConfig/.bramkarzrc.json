@@ -1,7 +1,4 @@
 {
-	"entrypoints": [
-		"./index.js"
-	],
 	"allowedPaths": [
 		"../*.txt"
 	]

@@ -23,7 +23,7 @@ test( 'passes arguments alongside', createCmdTest( {
 	],
 	cwd: fixtures.disabledByDefault,
 	callback( t, { stdout } ) {
-		const semverRegex = /^\d+\.\d+\.\d+$/;
+		const semverRegex = /^v\d+\.\d+\.\d+$/;
 
 		t.regex( stdout, semverRegex );
 	}
