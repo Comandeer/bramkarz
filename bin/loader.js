@@ -1,56 +1,71 @@
-import { readFile } from 'node:fs/promises';
-
 import { dirname } from 'node:path';
 import { resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pathToFileURL } from 'node:url';
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
 const distPath = resolvePath( __dirname, '..', 'dist' );
+const overridesPath = resolvePath( distPath, 'overrides' );
+const overrides = new Map( [
+	[
+		/^(?:node:)?fs\/promises?$/,
+		createOverrideURL( 'fs', 'promises' )
+	]
+] );
 
-const bramkarzPrefixRegex = /^bramkarz:/;
-
-export async function resolve( specifier, context, nextResolve ) {
+async function resolve( specifier, context, nextResolve ) {
 	const { parentURL = null } = context;
-	const fsRegex = /^(?:node:)?fs\/promises?$/;
-	const isFS = fsRegex.test( specifier );
-	const isBramkarzParent = parentURL && bramkarzPrefixRegex.test( parentURL );
-	const needsHijack = isFS && !isBramkarzParent;
-
-	// Node cannot into custom schemas in parent URLs.
-	if ( isBramkarzParent ) {
-		context.parentURL = undefined;
-	}
+	const isOverridable = isModuleOverridable( specifier );
+	const isBramkarzParent = isBramkarzModule( parentURL );
+	const needsHijack = isOverridable && !isBramkarzParent;
 
 	if ( !needsHijack ) {
 		return nextResolve( specifier, context, nextResolve );
 	}
 
+	const override = getModuleOverride( specifier );
+
 	return {
 		shortCircuit: true,
-		url: 'bramkarz:fs/promises',
+		url: override,
 		format: 'module'
 	};
 
 }
 
-export async function load( url, context, nextLoad ) {
-	const isBramkarzURL = bramkarzPrefixRegex.test( url );
+function createOverrideURL( ...overridePathSegments ) {
+	overridePathSegments[ overridePathSegments.length - 1 ] += '.mjs';
 
-	if ( !isBramkarzURL ) {
-		return nextLoad( url, context, nextLoad );
-	}
+	const overridePath = resolvePath( overridesPath, ...overridePathSegments );
+	const overrideURL = pathToFileURL( overridePath );
 
-	const overrideName = url.replace( bramkarzPrefixRegex, '' );
-	const overridePath = createOverridePath( overrideName );
-	const override = await readFile( overridePath, 'utf8' );
-
-	return {
-		format: context.format,
-		shortCircuit: true,
-		source: override
-	};
+	return overrideURL.href;
 }
 
-function createOverridePath( override ) {
-	return resolvePath( distPath, 'overrides', `${ override }.mjs` );
+function isModuleOverridable( module ) {
+	const availableOverrides = [ ...overrides.keys() ];
+
+	return availableOverrides.some( ( regex ) => {
+		return regex.test( module );
+	} );
 }
+
+function isBramkarzModule( url ) {
+	const bramkarzModules = [ ...overrides.values() ];
+
+	return bramkarzModules.some( ( module ) => {
+		return module === url;
+	} );
+}
+
+function getModuleOverride( module ) {
+	const availableOverrides = [ ...overrides ];
+
+	const [ , override ] = availableOverrides.find( ( [ regex ] ) => {
+		return regex.test( module );
+	} );
+
+	return override;
+}
+
+export { resolve };

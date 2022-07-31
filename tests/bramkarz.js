@@ -33,18 +33,17 @@ test( 'passes arguments alongside', createCmdTest( {
 	}
 } ) );
 
-// TODO: check how to bypass sourcemaps issues.
-// test( 'disallows any read if there is no config file', createCmdTest( {
-// 	cmd: bramkarzPath,
-// 	params: [
-// 		'.'
-// 	],
-// 	cwd: fixtures.disabledByDefault,
-// 	callback( t, { stderr, exitCode } ) {
-// 		t.regex( stderr, fsErrorRegex );
-// 		t.is( exitCode, 1 );
-// 	}
-// } ) );
+test( 'disallows any read if there is no config file', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'.'
+	],
+	cwd: fixtures.disabledByDefault,
+	callback( t, { stderr, exitCode } ) {
+		t.regex( stderr, fsErrorRegex );
+		t.is( exitCode, 1 );
+	}
+} ) );
 
 test( 'allows read according to the config file', createCmdTest( {
 	cmd: bramkarzPath,
@@ -52,8 +51,8 @@ test( 'allows read according to the config file', createCmdTest( {
 		'.'
 	],
 	cwd: fixtures.simpleConfig,
-	callback( t, { stderr/* , exitCode*/ } ) {
+	callback( t, { stderr, exitCode } ) {
 		t.notRegex( stderr, fsErrorRegex );
-		// t.is( exitCode, 0 );
+		t.is( exitCode, 0 );
 	}
 } ) );
