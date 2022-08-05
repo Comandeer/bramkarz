@@ -1,6 +1,5 @@
 import * as fs from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { resolve as resolvePath } from 'node:path';
 import { cwd as processCwd } from 'node:process';
 import getConfig from '../../getConfig.js';
 import micromatch from 'micromatch';
