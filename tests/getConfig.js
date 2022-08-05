@@ -4,7 +4,7 @@ import getConfig from '../src/getConfig.js';
 
 const expectedSimpleConfig = {
 	allowedPaths: [
-		'../*.txt'
+		'*.txt'
 	]
 };
 
