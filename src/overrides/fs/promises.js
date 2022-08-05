@@ -29,10 +29,9 @@ function isAllowedPath( path, allowedPaths, cwd ) {
 	}
 
 	return allowedPaths.some( ( allowedPath ) => {
-		const absoluteGlob = resolvePath( cwd, allowedPath );
-
-		return micromatch.isMatch( path, absoluteGlob, {
-			cwd
+		return micromatch.isMatch( path, allowedPath, {
+			cwd,
+			matchBase: true
 		} );
 	} );
 }

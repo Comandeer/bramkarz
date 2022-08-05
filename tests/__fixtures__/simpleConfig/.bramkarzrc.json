@@ -1,5 +1,5 @@
 {
 	"allowedPaths": [
-		"../*.txt"
+		"*.txt"
 	]
 }
