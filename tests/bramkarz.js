@@ -56,3 +56,51 @@ test( 'allows read according to the config file', createCmdTest( {
 		t.is( exitCode, 0 );
 	}
 } ) );
+
+test( 'disallow read outside of the root (absolute path)', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'.'
+	],
+	cwd: fixtures.readOutsideOfRoot,
+	callback( t, { stderr, exitCode } ) {
+		t.regex( stderr, fsErrorRegex );
+		t.is( exitCode, 1 );
+	}
+} ) );
+
+test( 'disallow read outside of the root (relative path)', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'./relative.js'
+	],
+	cwd: fixtures.readOutsideOfRoot,
+	callback( t, { stderr, exitCode } ) {
+		t.regex( stderr, fsErrorRegex );
+		t.is( exitCode, 1 );
+	}
+} ) );
+
+test( 'disallow read outside of the root (nested with absolute path)', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'./absolute.js'
+	],
+	cwd: fixtures.readOutsideOfRootNested,
+	callback( t, { stderr, exitCode } ) {
+		t.regex( stderr, fsErrorRegex );
+		t.is( exitCode, 1 );
+	}
+} ) );
+
+test( 'disallow read outside of the root (nested with relative path)', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'./relative.js'
+	],
+	cwd: fixtures.readOutsideOfRootNested,
+	callback( t, { stderr, exitCode } ) {
+		t.regex( stderr, fsErrorRegex );
+		t.is( exitCode, 1 );
+	}
+} ) );
