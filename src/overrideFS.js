@@ -11,14 +11,10 @@ function overrideFS( fs, {
 } = {} ) {
 	const newFS = cloneModule( fs );
 
-	iterateMappings( mappings, fs, newFS, ( property, pathIndexes, sourceObj, targetObj ) => {
-		targetObj[ property ] = new Proxy( sourceObj[ property ], {
-			apply( target, thisArg, argumentsList ) {
-				validatePathArguments( argumentsList, pathIndexes );
+	createProxies( mappings, fs, newFS, ( target, thisArg, argumentsList, pathIndexes ) => {
+		validatePathArguments( argumentsList, pathIndexes );
 
-				return Reflect.apply( target, thisArg, argumentsList );
-			}
-		} );
+		return Reflect.apply( target, thisArg, argumentsList );
 	} );
 
 	return newFS;
@@ -52,15 +48,27 @@ function cloneModule( module ) {
 	}
 }
 
-function iterateMappings( mappings, originalObj, clonedObj, callback ) {
+function createProxies( mappings, sourceObject, targetObject, callback ) {
 	const mappingsIterable = Object.entries( mappings );
 
 	mappingsIterable.forEach( ( [ property, pathIndexes ] ) => {
-		if ( Array.isArray( pathIndexes ) ) {
-			return callback( property, pathIndexes, originalObj, clonedObj );
+		const isExistingProperty = sourceObject[ property ] !== undefined;
+		const isMethod = typeof sourceObject[ property ] === 'function';
+		const isNestedObject = !Array.isArray( pathIndexes );
+
+		if ( isNestedObject && isExistingProperty ) {
+			return createProxies( pathIndexes, sourceObject[ property ], targetObject[ property ], callback );
 		}
 
-		return iterateMappings( pathIndexes, originalObj[ property ], clonedObj[ property ], callback );
+		if ( isNestedObject || !isMethod ) {
+			return;
+		}
+
+		targetObject[ property ] = new Proxy( sourceObject[ property ], {
+			apply( target, thisArg, argumentsList ) {
+				return callback( target, thisArg, argumentsList, pathIndexes );
+			}
+		} );
 	} );
 }
 

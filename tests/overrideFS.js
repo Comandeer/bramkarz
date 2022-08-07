@@ -38,6 +38,18 @@ test( 'overrideFS() overrides each mapping', async ( t ) => {
 	t.not( newFS.readFile, newFS.default.readFile );
 } );
 
+test( 'overrideFS() ignores mappings for non-existent properties', ( t ) => {
+	const fs = {};
+	const newFS = overrideFS( fs, {
+		mappings: {
+			readFile: [ 0 ]
+		}
+	} );
+
+	t.not( fs, newFS );
+	t.is( newFS.readFile, undefined );
+} );
+
 test( 'overrideFS() validates arguments under passed indexes (singular)', ( t ) => {
 	const fs = {
 		dummyFn() {}
