@@ -11,7 +11,10 @@ const newFS = overrideFS( fs, {
 	bramkarzRoot,
 	allowedPaths,
 	mappings: {
-		readFile: [ 0 ]
+		readFile: [ 0 ],
+		default: {
+			readFile: [ 0 ]
+		}
 	}
 } );
 

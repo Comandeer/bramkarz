@@ -9,18 +9,18 @@ function overrideFS( fs, {
 	allowedPaths = [],
 	mappings = {}
 } = {} ) {
-	const newFS = { ...fs };
-	newFS.default = { ...fs.default };
+	const newFS = cloneModule( fs );
 
-	for ( const [ method, pathIndexes ] of Object.entries( mappings ) ) {
-		newFS[ method ] = newFS.default[ method ] = new Proxy( fs[ method ], {
+	iterateMappings( mappings, fs, newFS, ( property, pathIndexes, sourceObj, targetObj ) => {
+		targetObj[ property ] = new Proxy( sourceObj[ property ], {
 			apply( target, thisArg, argumentsList ) {
 				validatePathArguments( argumentsList, pathIndexes );
 
 				return Reflect.apply( target, thisArg, argumentsList );
 			}
 		} );
-	}
+	} );
+
 	return newFS;
 
 	function validatePathArguments( argumentsList, pathIndexes = [ 0 ] ) {
@@ -33,6 +33,35 @@ function overrideFS( fs, {
 			}
 		}
 	}
+}
+
+function cloneModule( module ) {
+	const newModule = {};
+
+	for ( const [ property, value ] of Object.entries( module ) ) {
+		newModule[ property ] = isObject( value ) ? cloneModule( value ) : value;
+	}
+
+	return newModule;
+
+	function isObject( value ) {
+		const isObject = typeof value === 'object' && value !== null;
+		const isArray = Array.isArray( value );
+
+		return isObject && !isArray;
+	}
+}
+
+function iterateMappings( mappings, originalObj, clonedObj, callback ) {
+	const mappingsIterable = Object.entries( mappings );
+
+	mappingsIterable.forEach( ( [ property, pathIndexes ] ) => {
+		if ( Array.isArray( pathIndexes ) ) {
+			return callback( property, pathIndexes, originalObj, clonedObj );
+		}
+
+		return iterateMappings( pathIndexes, originalObj[ property ], clonedObj[ property ], callback );
+	} );
 }
 
 function isAllowedPath( path, allowedPaths, cwd ) {

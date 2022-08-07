@@ -8,13 +8,16 @@ const __dirname = dirname( fileURLToPath( import.meta.url ) );
 const fsErrorRegex = /The '.+' path is not allowed./;
 
 test( 'overrideFS() overrides the provided object', ( t ) => {
-	const fs = {};
+	const fs = {
+		hublabubla: {}
+	};
 	const newFS = overrideFS( fs );
 
 	t.not( fs, newFS );
+	t.not( fs.hublabubla, newFS.hublabubla );
 } );
 
-test( 'overrideFS() creates two exports for each mapping', async ( t ) => {
+test( 'overrideFS() overrides each mapping', async ( t ) => {
 	const fs = {
 		readFile() {},
 		default: {
@@ -23,13 +26,16 @@ test( 'overrideFS() creates two exports for each mapping', async ( t ) => {
 	};
 	const newFS = overrideFS( fs, {
 		mappings: {
-			readFile: [ 0 ]
+			readFile: [ 0 ],
+			default: {
+				readFile: [ 0 ]
+			}
 		}
 	} );
 
 	t.not( fs.readFile, newFS.readFile );
 	t.not( fs.default.readFile, newFS.default.readFile );
-	t.is( newFS.readFile, newFS.default.readFile );
+	t.not( newFS.readFile, newFS.default.readFile );
 } );
 
 test( 'overrideFS() validates arguments under passed indexes (singular)', ( t ) => {
