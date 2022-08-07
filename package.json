@@ -82,6 +82,7 @@
     "mock-fs": "^5.1.2"
   },
   "dependencies": {
+    "clone-deep": "^4.0.1",
     "execa": "^6.1.0",
     "find-up": "^6.3.0",
     "micromatch": "^4.0.5",
