@@ -1,10 +1,12 @@
 import { dirname } from 'node:path';
+import { relative as getRelativePath } from 'node:path';
 import { resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pathToFileURL } from 'node:url';
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
-const distPath = resolvePath( __dirname, '..', 'dist' );
+const bramkarzRootPath = resolvePath( __dirname, '..' );
+const distPath = resolvePath( bramkarzRootPath, 'dist' );
 const overridesPath = resolvePath( distPath, 'overrides' );
 const overrides = new Map( [
 	[
@@ -20,7 +22,7 @@ const overrides = new Map( [
 async function resolve( specifier, context, nextResolve ) {
 	const { parentURL = null } = context;
 	const isOverridable = isModuleOverridable( specifier );
-	const isBramkarzParent = isBramkarzModule( parentURL );
+	const isBramkarzParent = parentURL && isInsideDir( bramkarzRootPath, parentURL );
 	const needsHijack = isOverridable && !isBramkarzParent;
 
 	if ( !needsHijack ) {
@@ -54,14 +56,6 @@ function isModuleOverridable( module ) {
 	} );
 }
 
-function isBramkarzModule( url ) {
-	const bramkarzModules = [ ...overrides.values() ];
-
-	return bramkarzModules.some( ( module ) => {
-		return module === url;
-	} );
-}
-
 function getModuleOverride( module ) {
 	const availableOverrides = [ ...overrides ];
 
@@ -70,6 +64,14 @@ function getModuleOverride( module ) {
 	} );
 
 	return override;
+}
+
+function isInsideDir( dir, path ) {
+	const filePath = path.startsWith( 'file://' ) ? fileURLToPath( path ) : path;
+	const relativePath = getRelativePath( dir, filePath );
+
+	// https://www.golinuxcloud.com/if-path-is-subdirectory-of-another-nodejs/
+	return !relativePath.startsWith( '..' );
 }
 
 export { resolve };
