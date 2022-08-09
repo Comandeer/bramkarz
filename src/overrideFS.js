@@ -152,8 +152,7 @@ function getAbsolutePath( cwd, path ) {
 	return resolvePath( cwd, filePath );
 }
 
-function isInsideDir( dir, path ) {
-	const filePath = path.startsWith( 'file://' ) ? fileURLToPath( path ) : path;
+function isInsideDir( dir, filePath ) {
 	const relativePath = getRelativePath( dir, filePath );
 
 	// https://www.golinuxcloud.com/if-path-is-subdirectory-of-another-nodejs/
