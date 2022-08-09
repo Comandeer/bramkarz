@@ -19,6 +19,7 @@ const {
 	chown,
 	constants,
 	copyFile,
+	cp,
 	lchmod,
 	lchown,
 	lutimes,
@@ -52,6 +53,7 @@ export { chmod };
 export { chown };
 export { constants };
 export { copyFile };
+export { cp };
 export { lchmod };
 export { lchown };
 export { lutimes };

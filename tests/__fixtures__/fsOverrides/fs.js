@@ -4,6 +4,7 @@ import { appendFile } from 'node:fs';
 import { chmod } from 'node:fs';
 import { chown } from 'node:fs';
 import { copyFile } from 'node:fs';
+import { cp } from 'node:fs';
 import { createReadStream } from 'node:fs';
 import { createWriteStream } from 'node:fs';
 import { exists } from 'node:fs';
@@ -72,6 +73,15 @@ await assertCall( 'copyFile (relative, destination)', ( callback ) => copyFile( 
 await assertCall( 'copyFile (absolute, destination)', ( callback ) => copyFile( 'test.txt', testFileAbsolutePath, callback ) );
 await assertCall( 'fs.copyFile (relative, destination)', ( callback ) => fs.copyFile( 'test.txt', testFileRelativePath, callback ) );
 await assertCall( 'fs.copyFile (absolute, destination)', ( callback ) => fs.copyFile( 'test.txt', testFileAbsolutePath, callback ) );
+
+await assertCall( 'cp (relative, source)', ( callback ) => cp( testFileRelativePath, 'test.txt', callback ) );
+await assertCall( 'cp (absolute, source)', ( callback ) => cp( testFileAbsolutePath, 'test.txt', callback ) );
+await assertCall( 'fs.cp (relative, source)', ( callback ) => fs.cp( testFileRelativePath, 'test.txt', callback ) );
+await assertCall( 'fs.cp (absolute, source)', ( callback ) => fs.cp( testFileAbsolutePath, 'test.txt', callback ) );
+await assertCall( 'cp (relative, destination)', ( callback ) => cp( 'test.txt', testFileRelativePath, callback ) );
+await assertCall( 'cp (absolute, destination)', ( callback ) => cp( 'test.txt', testFileAbsolutePath, callback ) );
+await assertCall( 'fs.cp (relative, destination)', ( callback ) => fs.cp( 'test.txt', testFileRelativePath, callback ) );
+await assertCall( 'fs.cp (absolute, destination)', ( callback ) => fs.cp( 'test.txt', testFileAbsolutePath, callback ) );
 
 await assertNonCallbackedCall( 'createReadStream (relative)', () => createReadStream( testFileRelativePath ) );
 await assertNonCallbackedCall( 'createReadStream (absolute)', () => createReadStream( testFileAbsolutePath ) );

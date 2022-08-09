@@ -3,6 +3,7 @@ import { access } from 'node:fs/promises';
 import { appendFile } from 'node:fs/promises';
 import { chmod } from 'node:fs/promises';
 import { chown } from 'node:fs/promises';
+import { cp } from 'node:fs/promises';
 import { copyFile } from 'node:fs/promises';
 import { lchmod } from 'node:fs/promises';
 import { lchown } from 'node:fs/promises';
@@ -58,6 +59,15 @@ await assertCall( 'chown (relative)', () => chown( testFileRelativePath, 0, 0 ) 
 await assertCall( 'chown (absolute)', () => chown( testFileAbsolutePath, 0, 0 ) );
 await assertCall( 'fs.chown (relative)', () => fs.chown( testFileRelativePath, 0, 0 ) );
 await assertCall( 'fs.chown (absolute)', () => fs.chown( testFileAbsolutePath, 0, 0 ) );
+
+await assertCall( 'cp (relative, source)', () => cp( testFileRelativePath, 'test.txt' ) );
+await assertCall( 'cp (absolute, source)', () => cp( testFileAbsolutePath, 'test.txt' ) );
+await assertCall( 'fs.cp (relative, source)', () => fs.cp( testFileRelativePath, 'test.txt' ) );
+await assertCall( 'fs.cp (absolute, source)', () => fs.cp( testFileAbsolutePath, 'test.txt' ) );
+await assertCall( 'cp (relative, destination)', () => cp( 'test.txt', testFileRelativePath ) );
+await assertCall( 'cp (absolute, destination)', () => cp( 'test.txt', testFileAbsolutePath ) );
+await assertCall( 'fs.cp (relative, destination)', () => fs.cp( 'test.txt', testFileRelativePath ) );
+await assertCall( 'fs.cp (absolute, destination)', () => fs.cp( 'test.txt', testFileAbsolutePath ) );
 
 await assertCall( 'copyFile (relative, source)', () => copyFile( testFileRelativePath, 'test.txt' ) );
 await assertCall( 'copyFile (absolute, source)', () => copyFile( testFileAbsolutePath, 'test.txt' ) );

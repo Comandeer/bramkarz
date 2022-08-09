@@ -19,6 +19,7 @@ const {
 	chown,
 	constants,
 	copyFile,
+	cp,
 	createReadStream,
 	createWriteStream,
 	exists,
@@ -70,6 +71,7 @@ export { chmod };
 export { chown };
 export { constants };
 export { copyFile };
+export { cp };
 export { createReadStream };
 export { createWriteStream };
 export { exists };
