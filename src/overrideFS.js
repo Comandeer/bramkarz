@@ -10,6 +10,7 @@ const defaultMethods = {
 	chmod: [ 0 ],
 	chown: [ 0 ],
 	copyFile: [ 0, 1 ],
+	cp: [ 0, 1 ],
 	createReadStream: [ 0 ],
 	createWriteStream: [ 0 ],
 	exists: [ 0 ],
