@@ -82,7 +82,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.20.0",
     "husky": "^8.0.1",
-    "mock-fs": "^5.1.2"
+    "tempy": "^3.0.0"
   },
   "dependencies": {
     "execa": "^6.1.0",
