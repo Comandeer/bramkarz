@@ -8,6 +8,7 @@ import createCmdTest from './__helpers__/createCmdTest.js';
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
 const bramkarzPath = resolvePath( __dirname, '..', 'bin', 'bramkarz.js' );
 const fsErrorRegex = /The '.+' path is not allowed./;
+const failRegex = /FAIL/;
 
 test( 'returns correct exit code', createCmdTest( {
 	cmd: bramkarzPath,
@@ -102,5 +103,16 @@ test( 'disallow read outside of the root (nested with relative path)', createCmd
 	callback( t, { stderr, exitCode } ) {
 		t.regex( stderr, fsErrorRegex );
 		t.is( exitCode, 1 );
+	}
+} ) );
+
+test( 'node:fs/promises overrides are applied (disallow)', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'./promises.js'
+	],
+	cwd: fixtures.fsOverrides,
+	callback( t, { stdout } ) {
+		t.notRegex( stdout, failRegex );
 	}
 } ) );

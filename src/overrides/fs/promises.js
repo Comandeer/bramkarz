@@ -9,16 +9,67 @@ const { allowedPaths = [], __filePath__ } = await getConfig( cwd );
 const bramkarzRoot = __filePath__ ? dirname( __filePath__ ) : '';
 const newFS = overrideFS( fs, {
 	bramkarzRoot,
-	allowedPaths,
-	mappings: {
-		readFile: [ 0 ],
-		default: {
-			readFile: [ 0 ]
-		}
-	}
+	allowedPaths
 } );
 
-const { readFile } = newFS;
+const {
+	access,
+	appendFile,
+	chmod,
+	chown,
+	copyFile,
+	lchmod,
+	lchown,
+	lutimes,
+	link,
+	lstat,
+	mkdir,
+	mkdtemp,
+	open,
+	opendir,
+	readdir,
+	readFile,
+	readlink,
+	realpath,
+	rename,
+	rmdir,
+	rm,
+	stat,
+	symlink,
+	truncate,
+	unlink,
+	utimes,
+	watch,
+	writeFile
+} = newFS;
 
 export default newFS.default;
+
+export { access };
+export { appendFile };
+export { chmod };
+export { chown };
+export { copyFile };
+export { lchmod };
+export { lchown };
+export { lutimes };
+export { link };
+export { lstat };
+export { mkdir };
+export { mkdtemp };
+export { open };
+export { opendir };
+export { readdir };
 export { readFile };
+export { readlink };
+export { realpath };
+export { rename };
+export { rmdir };
+export { rm };
+export { stat };
+export { symlink };
+export { truncate };
+export { unlink };
+export { utimes };
+export { watch };
+export { writeFile };

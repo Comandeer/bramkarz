@@ -4,10 +4,53 @@ import { cwd as processCwd } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import micromatch from 'micromatch';
 
+const defaultMethods = {
+	access: [ 0 ],
+	appendFile: [ 0 ],
+	chmod: [ 0 ],
+	chown: [ 0 ],
+	copyFile: [ 0, 1 ],
+	lchmod: [ 0 ],
+	lchown: [ 0 ],
+	lutimes: [ 0 ],
+	link: [ 0, 1 ],
+	lstat: [ 0 ],
+	mkdir: [ 0 ],
+	mkdtemp: [ 0 ],
+	open: [ 0 ],
+	opendir: [ 0 ],
+	readdir: [ 0 ],
+	readFile: [ 0 ],
+	readlink: [ 0 ],
+	realpath: [ 0 ],
+	rename: [ 0, 1 ],
+	rmdir: [ 0 ],
+	rm: [ 0 ],
+	stat: [ 0 ],
+	symlink: [ 0, 1 ],
+	truncate: [ 0 ],
+	unlink: [ 0 ],
+	utimes: [ 0 ],
+	watch: [ 0 ],
+	writeFile: [ 0 ]
+};
+const defaultMappings = {
+	...defaultMethods,
+	default: {
+		...defaultMethods,
+		promises: {
+			...defaultMethods
+		}
+	},
+	promises: {
+		...defaultMethods
+	}
+};
+
 function overrideFS( fs, {
 	bramkarzRoot = processCwd(),
 	allowedPaths = [],
-	mappings = {}
+	mappings = defaultMappings
 } = {} ) {
 	const newFS = cloneModule( fs );
 

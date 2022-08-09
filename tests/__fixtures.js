@@ -8,6 +8,7 @@ const disabledByDefaultFixturePath = resolvePath( fixtureDirPath, 'disabledByDef
 const simpleConfigFixturePath = resolvePath( fixtureDirPath, 'simpleConfig' );
 const readOutsideOfRootFixturePath = resolvePath( fixtureDirPath, 'readOutsideOfRoot' );
 const readOutsideOfRootNestedDirectoryPath = resolvePath( readOutsideOfRootFixturePath, 'nested' );
+const fsOverridesFixturePath = resolvePath( fixtureDirPath, 'fsOverrides' );
 const testMdPath = resolvePath( fixtureDirPath, 'test.md' );
 const testTxtPath = resolvePath( fixtureDirPath, 'test.txt' );
 
@@ -17,6 +18,7 @@ const fixtures = {
 	simpleConfig: simpleConfigFixturePath,
 	readOutsideOfRoot: readOutsideOfRootFixturePath,
 	readOutsideOfRootNested: readOutsideOfRootNestedDirectoryPath,
+	fsOverrides: fsOverridesFixturePath,
 	testMd: testMdPath,
 	testTxt: testTxtPath
 };
