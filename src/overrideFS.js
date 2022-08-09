@@ -10,6 +10,9 @@ const defaultMethods = {
 	chmod: [ 0 ],
 	chown: [ 0 ],
 	copyFile: [ 0, 1 ],
+	createReadStream: [ 0 ],
+	createWriteStream: [ 0 ],
+	exists: [ 0 ],
 	lchmod: [ 0 ],
 	lchown: [ 0 ],
 	lutimes: [ 0 ],
@@ -30,8 +33,10 @@ const defaultMethods = {
 	symlink: [ 0, 1 ],
 	truncate: [ 0 ],
 	unlink: [ 0 ],
+	unwatchFile: [ 0 ],
 	utimes: [ 0 ],
 	watch: [ 0 ],
+	watchFile: [ 0 ],
 	writeFile: [ 0 ]
 };
 const defaultMappings = {
@@ -55,7 +60,19 @@ function overrideFS( fs, {
 	const newFS = cloneModule( fs );
 
 	createProxies( mappings, fs, newFS, ( target, thisArg, argumentsList, pathIndexes ) => {
-		validatePathArguments( argumentsList, pathIndexes );
+		// TODO: find less naive way without the need of vast refactor…
+		const callback = argumentsList[ argumentsList.length - 1 ];
+		const isCallbacked = typeof callback === 'function';
+
+		try {
+			validatePathArguments( argumentsList, pathIndexes );
+		} catch ( error ) {
+			if ( isCallbacked ) {
+				return callback( error );
+			}
+
+			throw error;
+		}
 
 		return Reflect.apply( target, thisArg, argumentsList );
 	} );

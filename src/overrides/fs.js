@@ -1,8 +1,8 @@
-import * as fs from 'node:fs/promises';
+import * as fs from 'node:fs';
 import { dirname } from 'node:path';
 import { cwd as processCwd } from 'node:process';
-import getConfig from '../../getConfig.js';
-import overrideFS from '../../overrideFS.js';
+import getConfig from '../getConfig.js';
+import overrideFS from '../overrideFS.js';
 
 const cwd = processCwd();
 const { allowedPaths = [], __filePath__ } = await getConfig( cwd );
@@ -19,6 +19,9 @@ const {
 	chown,
 	constants,
 	copyFile,
+	createReadStream,
+	createWriteStream,
+	exists,
 	lchmod,
 	lchown,
 	lutimes,
@@ -28,6 +31,7 @@ const {
 	mkdtemp,
 	open,
 	opendir,
+	promises,
 	readdir,
 	readFile,
 	readlink,
@@ -39,9 +43,23 @@ const {
 	symlink,
 	truncate,
 	unlink,
+	unwatchFile,
 	utimes,
 	watch,
-	writeFile
+	watchFile,
+	writeFile,
+	Dir,
+	Dirent,
+	Stats,
+	ReadStream,
+	WriteStream,
+	FileReadStream,
+	FileWriteStream,
+	_toUnixTimestamp,
+	F_OK,
+	R_OK,
+	W_OK,
+	X_OK
 } = newFS;
 
 export default newFS.default;
@@ -52,6 +70,9 @@ export { chmod };
 export { chown };
 export { constants };
 export { copyFile };
+export { createReadStream };
+export { createWriteStream };
+export { exists };
 export { lchmod };
 export { lchown };
 export { lutimes };
@@ -61,6 +82,7 @@ export { mkdir };
 export { mkdtemp };
 export { open };
 export { opendir };
+export { promises };
 export { readdir };
 export { readFile };
 export { readlink };
@@ -72,6 +94,20 @@ export { stat };
 export { symlink };
 export { truncate };
 export { unlink };
+export { unwatchFile };
 export { utimes };
 export { watch };
+export { watchFile };
 export { writeFile };
+export { Dir };
+export { Dirent };
+export { Stats };
+export { ReadStream };
+export { WriteStream };
+export { FileReadStream };
+export { FileWriteStream };
+export { _toUnixTimestamp };
+export { F_OK };
+export { R_OK };
+export { W_OK };
+export { X_OK };

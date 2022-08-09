@@ -7,6 +7,9 @@
     ".": {
       "import": "./dist/bramkarz.mjs"
     },
+    "./overrides/fs": {
+      "import": "./dist/overrides/fs.mjs"
+    },
     "./overrides/fs/promises": {
       "import": "./dist/overrides/fs/promises.mjs"
     }

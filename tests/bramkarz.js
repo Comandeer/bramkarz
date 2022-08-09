@@ -106,7 +106,18 @@ test( 'disallow read outside of the root (nested with relative path)', createCmd
 	}
 } ) );
 
-test( 'node:fs/promises overrides are applied (disallow)', createCmdTest( {
+test( 'node:fs overrides are applied', createCmdTest( {
+	cmd: bramkarzPath,
+	params: [
+		'./promises.js'
+	],
+	cwd: fixtures.fsOverrides,
+	callback( t, { stdout } ) {
+		t.notRegex( stdout, failRegex );
+	}
+} ) );
+
+test( 'node:fs/promises overrides are applied', createCmdTest( {
 	cmd: bramkarzPath,
 	params: [
 		'./promises.js'

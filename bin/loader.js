@@ -8,8 +8,12 @@ const distPath = resolvePath( __dirname, '..', 'dist' );
 const overridesPath = resolvePath( distPath, 'overrides' );
 const overrides = new Map( [
 	[
-		/^(?:node:)?fs\/promises?$/,
+		/^(?:node:)?fs\/promises$/,
 		createOverrideURL( 'fs', 'promises' )
+	],
+	[
+		/^(?:node:)?fs$/,
+		createOverrideURL( 'fs' )
 	]
 ] );
 
