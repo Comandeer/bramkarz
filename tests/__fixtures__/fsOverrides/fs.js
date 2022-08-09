@@ -240,7 +240,6 @@ await assertCall( 'fs.writeFile (absolute)', ( callback ) => fs.writeFile( testF
 async function assertCall( name, fn ) {
 	return new Promise( ( resolve ) => {
 		fn( ( error ) => {
-			console.log (error );
 			const isBlocked = error && errorMessageRegex.test( error.message );
 
 			console.log( name, isBlocked ? 'PASS' : 'FAIL' );
