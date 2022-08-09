@@ -87,6 +87,7 @@ test( 'disallow read outside of the root (nested with absolute path)', createCmd
 	params: [
 		'./absolute.js'
 	],
+	root: fixtures.readOutsideOfRoot,
 	cwd: fixtures.readOutsideOfRootNested,
 	callback( t, { stderr, exitCode } ) {
 		t.regex( stderr, fsErrorRegex );
@@ -99,6 +100,7 @@ test( 'disallow read outside of the root (nested with relative path)', createCmd
 	params: [
 		'./relative.js'
 	],
+	root: fixtures.readOutsideOfRoot,
 	cwd: fixtures.readOutsideOfRootNested,
 	callback( t, { stderr, exitCode } ) {
 		t.regex( stderr, fsErrorRegex );
@@ -109,7 +111,7 @@ test( 'disallow read outside of the root (nested with relative path)', createCmd
 test( 'node:fs overrides are applied', createCmdTest( {
 	cmd: bramkarzPath,
 	params: [
-		'./promises.js'
+		'./fs.js'
 	],
 	cwd: fixtures.fsOverrides,
 	callback( t, { stdout } ) {

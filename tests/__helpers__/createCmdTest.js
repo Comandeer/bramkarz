@@ -28,16 +28,18 @@ function createCmdTest( {
 	callback,
 	params = [],
 	env = {},
-	cwd = processCWD()
+	cwd = processCWD(),
+	root = cwd
 } = {} ) {
 	return async ( t ) => {
 		return temporaryDirectoryTask( async ( path ) => {
-			await cp( cwd, path, {
+			await cp( root, path, {
 				recursive: true
 			} );
 
+			const newCWD = cwd.replace( root, path );
 			const result = await execa( cmd, params, {
-				cwd: path,
+				cwd: newCWD,
 				env,
 				reject: false
 			} );
