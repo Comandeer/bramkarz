@@ -24,10 +24,7 @@ async function resolve( specifier, context, nextResolve ) {
 	const isOverridable = isModuleOverridable( specifier );
 	const isBramkarzParent = parentURL && isInsideDir( bramkarzRootPath, parentURL );
 	const needsHijack = isOverridable && !isBramkarzParent;
-	console.log( '__dirname', __dirname ); // eslint-disable-line no-console
-	console.log( 'isBramkarzParent', isBramkarzParent ); // eslint-disable-line no-console
-	console.log( 'parentURL', parentURL ); // eslint-disable-line no-console
-	console.log( 'specifier', specifier ); // eslint-disable-line no-console
+
 	if ( !needsHijack ) {
 		return nextResolve( specifier, context, nextResolve );
 	}

@@ -58,15 +58,13 @@ test( 'allows read according to the config file', createCmdTest( {
 	}
 } ) );
 
-test.only( 'disallow read outside of the root (absolute path)', createCmdTest( {
+test( 'disallow read outside of the root (absolute path)', createCmdTest( {
 	cmd: bramkarzPath,
 	params: [
 		'.'
 	],
 	cwd: fixtures.readOutsideOfRoot,
-	callback( t, { stdout, stderr, exitCode } ) {
-		console.log( 'stdout', stdout ); // eslint-disable-line no-console
-		console.log( 'stderr', stderr ); // eslint-disable-line no-console
+	callback( t, { stderr, exitCode } ) {
 		t.regex( stderr, fsErrorRegex );
 		t.is( exitCode, 1 );
 	}
