@@ -1,4 +1,5 @@
 import { dirname } from 'node:path';
+import { isAbsolute } from 'node:path';
 import { relative as getRelativePath } from 'node:path';
 import { resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -69,9 +70,12 @@ function getModuleOverride( module ) {
 function isInsideDir( dir, path ) {
 	const filePath = fileURLToPath( path );
 	const relativePath = getRelativePath( dir, filePath );
+	const isNotEmptyPath = relativePath.length > 0;
+	const isNotOutsideDir = !relativePath.startsWith( '..' );
+	const isNotAbsolutePath = !isAbsolute( relativePath );
 
-	// https://www.golinuxcloud.com/if-path-is-subdirectory-of-another-nodejs/
-	return !relativePath.startsWith( '..' );
+	// https://stackoverflow.com/a/45242825/9025529
+	return isNotEmptyPath && isNotOutsideDir && isNotAbsolutePath;
 }
 
 export { resolve };

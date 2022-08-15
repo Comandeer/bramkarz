@@ -1,3 +1,4 @@
+import { isAbsolute } from 'node:path';
 import { relative as getRelativePath } from 'node:path';
 import { resolve as resolvePath } from 'node:path';
 import { cwd as processCwd } from 'node:process';
@@ -154,9 +155,12 @@ function getAbsolutePath( cwd, path ) {
 
 function isInsideDir( dir, filePath ) {
 	const relativePath = getRelativePath( dir, filePath );
+	const isNotEmptyPath = relativePath.length > 0;
+	const isNotOutsideDir = !relativePath.startsWith( '..' );
+	const isNotAbsolutePath = !isAbsolute( relativePath );
 
-	// https://www.golinuxcloud.com/if-path-is-subdirectory-of-another-nodejs/
-	return !relativePath.startsWith( '..' );
+	// https://stackoverflow.com/a/45242825/9025529
+	return isNotEmptyPath && isNotOutsideDir && isNotAbsolutePath;
 }
 
 export default overrideFS;
