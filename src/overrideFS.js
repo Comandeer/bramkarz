@@ -59,7 +59,7 @@ function overrideFS( fs, {
 	mappings = defaultMappings
 } = {} ) {
 	const newFS = cloneModule( fs );
-
+	console.log( 'overriding' ); // eslint-disable-line no-console
 	createProxies( mappings, fs, newFS, ( target, thisArg, argumentsList, pathIndexes ) => {
 		// TODO: find less naive way without the need of vast refactor…
 		const callback = argumentsList[ argumentsList.length - 1 ];
@@ -84,7 +84,7 @@ function overrideFS( fs, {
 		for ( const pathIndex of pathIndexes ) {
 			const path = argumentsList[ pathIndex ];
 			const absolutePath = getAbsolutePath( processCwd(), path );
-
+			console.log( 'override absolute path', absolutePath ); // eslint-disable-line no-console
 			if ( !isInsideDir( bramkarzRoot, absolutePath ) || !isAllowedPath( path, allowedPaths, bramkarzRoot ) ) {
 				throw new Error( `The '${ path }' path is not allowed.` );
 			}
@@ -147,6 +147,7 @@ function isAllowedPath( path, allowedPaths, cwd ) {
 }
 
 function getAbsolutePath( cwd, path ) {
+	console.log( 'getAbsolutePath', cwd, path ); // eslint-disable-line no-console
 	const filePath = path.startsWith( 'file://' ) ? fileURLToPath( path ) : path;
 
 	return resolvePath( cwd, filePath );

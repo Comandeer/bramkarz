@@ -33,11 +33,13 @@ function createCmdTest( {
 } = {} ) {
 	return async ( t ) => {
 		return temporaryDirectoryTask( async ( path ) => {
+			console.log( 'temporaryDirectoryTask', root, path ); // eslint-disable-line no-console
 			await cp( root, path, {
 				recursive: true
 			} );
 
 			const newCWD = cwd.replace( root, path );
+			console.log( 'newCWD', newCWD ); // eslint-disable-line no-console
 			const result = await execa( cmd, params, {
 				cwd: newCWD,
 				env,
