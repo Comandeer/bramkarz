@@ -4,8 +4,7 @@
 
 Simple ESM runtime guard.
 
-**💀 DISCONTINUED💀 **
-[Read more in the blogpost (in Polish)](https://blog.comandeer.pl/bramkarz-na-urlopie.html).
+**💀 DISCONTINUED💀** [Read more in the blogpost (in Polish)](https://blog.comandeer.pl/bramkarz-na-urlopie.html).
 
 ## Installation
 
